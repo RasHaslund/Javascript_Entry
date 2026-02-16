@@ -1,14 +1,6 @@
-# Stage 1: Build with Maven
-FROM maven:3.9-eclipse-temurin-17 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
+FROM nginx:alpine
 
-# Stage 2: Create runtime image
-FROM eclipse-temurin:17-jre
-WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY src/main/java/com/example/javascript_entry/NewHTML/index.html /usr/share/nginx/html/index.html
+COPY src/main/java/com/example/javascript_entry/NewHTML/index.js /usr/share/nginx/html/index.js
 
+EXPOSE 80
